@@ -1,0 +1,32 @@
+    createExArray() {
+        let c = this.ex.innerText =answer;
+        exArray.push(c);
+       while(true) {
+            if(exArray.length<enemyArray.length){
+                exs = this.ex.innerText = getRandom(20);
+                if(checkDuplicate(exArray, exs)==false && exs!=answer){
+                    exArray.push(exs);
+                }
+            }else{
+                break;
+            }
+        }
+    }
+
+
+
+    while (true) { //무한 반복으로 돌려버림..... 
+        //6자 미만일 경우에만...
+        if (num.length < 6) {
+            let n = getRandomByRange(1, 45);
+            console.log("랜덤번호는", n);
+            if(checkDuplicate(num,n)==false){
+                //배열에 존재하지 않을때만 푸쉬한다.(중복되지 않은 경우)
+                num.push(n);
+            }
+
+        } else {
+            break;
+        }
+    }
+    console.log(num);
