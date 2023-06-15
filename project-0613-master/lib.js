@@ -112,3 +112,15 @@ function getStringOutOfRange(str,limit){
     }
     return result;
 }
+
+//어떤 배열이 모두 채워져 있는지 여부를 판단해주는 함수 
+function getEmptyCount(array){
+    let count=0;
+
+    for(let i=0;i<array.length;i++){
+        if(array[i]==undefined){
+            count++;
+        }
+    }
+    return count;
+}

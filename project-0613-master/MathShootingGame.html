@@ -219,6 +219,9 @@
                         bulletArray[i].hitCheck();
                     }
                 }
+                if(timeCount>=1830){
+                    gameOver();
+                }
         }
 
         function moveX(n) {
@@ -256,14 +259,23 @@
 
         function createEx(){
             let target=getRandom(enemyArray.length); 
-            enemyArray[target].ex.innerText = (questArray[0],a+questArray[0].b);
+            enemyArray[target].ex.innerText = (questArray[0].a+questArray[0].b);
             for(let i=0;i<enemyArray.length;i++){
+                let n=getRandomByRange(parseInt(inputA.value)*2,parseInt(inputB.value)*2);
                 if(target !=i ){
-                    enemyArray[i].ex.innerText=getRandomByRange(1,20);
+                    if(enemyArray[target].ex.innerText!=n){
+                        enemyArray[i].ex.innerText=n;
+                    }else{
+                        let m=getRandomByRange(parseInt(inputA.value)*2,parseInt(inputB.value)*2);
+                        enemyArray[i].ex.innerText=m;
+                    }
                 }
             }
 
         }
+        
+        
+
         function nextQuest(){
             questArray.splice(0,1);
             createQuestBox();
@@ -298,6 +310,7 @@
             createBoss();
             createQuestBox();
             createEnemy();
+            createEx();
         }
         addEventListener("load", function () {
             init();
