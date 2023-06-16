@@ -73,7 +73,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="./lib.js"></script>
     <script src="./GameObject.js"></script>
-    <script src="./Operator.js"></script>
     <script src="./Heart.js"></script>
     <script src="./Emoji.js"></script>
     <script src="./Box.js"></script>
@@ -92,7 +91,12 @@
         let button;
         let inputA;
         let inputB;
-        let plusMinus;
+        let shootingSound= new Audio("./sounds/총.mp3");
+        let correctSound= new Audio("./sounds/정답.mp3");
+        let wrongSound= new Audio("./sounds/오답.mp3");
+        let questSound= new Audio("./sounds/문제출제.mp3");
+        let gameOverSound= new Audio("./sounds/게임오버.mp3");
+        let gameStartSound= new Audio("./sounds/게임시작.mp3");
         let heartArray=[];
         let goodArray=["./images/good1.png","./images/good2.png","./images/good3.png","./images/good4.png"];
         let badArray=["./images/bad1.png","./images/bad2.png","./images/bad3.png"];
@@ -115,14 +119,11 @@
         let enemyColorArray = ["./images/pink.png", "./images/yellow.png", "./images/orange.png", "./images/green.png"];
         let enemy;
         let enemyArray = [];
+        let newNumbers=[];
         let flag3=true;
         let timeCount = 0;
+        let s=0.1;
 
-        function createOperator(){
-            for(let i=0;i<operatorArray.length;i++){
-                new Operator(plusMinus,operatorArray[i],70,70,10+(i*80),0,0,0,"pink");
-            }
-        }
         function createHeart() {
             for (let i = 0; i < 3; i++) {
                 let heart = new Heart(side, "./images/heart.png", 100, 100, 40 + (i * 150), 50, 0, 0, "");
@@ -153,6 +154,8 @@
             wow.fadeOut();
         }
         function getScore(){
+            correctSound.play();
+            correctSound.currentTime=0;
             score=score+10;
             scoreBox.div.innerText=score+"점";
     
@@ -166,6 +169,8 @@
                 }
 
             }else{
+                wrongSound.play();
+                wrongSound.currentTime=0;
                 score=score-10;
                 scoreBox.div.innerText=score+"점";
             }
@@ -201,6 +206,7 @@
                     hero.picEffect();
                     questArray[0].tick();
                     questArray[0].render();
+                    questArray[0].slideDown();
                     if (boss.y >= 30) {
                         questArray[0].velY=0;
                         boss.velY = 0;
@@ -234,6 +240,8 @@
             hero = new HeroBox(content, 200, 200, -160, 800, 25, 0, "", "");
         }
         function fire() {
+            shootingSound.play();
+            shootingSound.currentTime=0;
             let bullet = new Bullet(content, 10, 30, hero.x + 95, hero.y - 20, 0, -35, "red", "");
             bulletArray.push(bullet);
         }
@@ -243,15 +251,15 @@
 
         //최초 문제가 출제되는 시점 
         function createQuestBox() {
-            let questBox = new QuestBox(content, boss.width, 80, boss.x, boss.y+boss.height, boss.velX, boss.velY, "white", "");
+            let questBox = new QuestBox(content, boss.width, 80, boss.x, (boss.y+boss.height)-30, boss.velX, boss.velY, "white", "");
             questArray.push(questBox);
-            questArray[0].slideDown();
-
+            questSound.play();
+            questSound.currentTime=0;
         }
 
         function createEnemy() {
             for (let i = 0; i < 4; i++) {
-                enemy = new Enemy(content, enemyColorArray[i],120, 160, 100 + (i * 300), -160, 0, 20, "", "");
+                enemy = new Enemy(content, enemyColorArray[i],120, 160, 100 + (i * 300), -160, 0, 40, "", "");
                 enemyArray.push(enemy);
             }
             createEx();
@@ -271,7 +279,6 @@
                     }
                 }
             }
-
         }
         
         
@@ -293,6 +300,14 @@
             button.disabled = false;
             button.innerText = "START";
         }
+
+       function playSound(){
+            questSound.currentTime=0;
+            questSound.play();
+            gameStartSound.currentTime=0;
+            gameStartSound.play();
+       }
+
         function init() {
             wrapper = document.getElementById("wrapper");
             side = document.getElementById("side");
@@ -301,8 +316,6 @@
             inputA=document.getElementById("inputA");
             inputB=document.getElementById("inputB");
             plusMinus=document.getElementById("plusMinus");
-
-            createOperator();
             createHeart();
             showScore();
             createBg();
@@ -311,6 +324,9 @@
             createQuestBox();
             createEnemy();
             createEx();
+            playSound();
+            
+
         }
         addEventListener("load", function () {
             init();
@@ -335,13 +351,17 @@
 </head>
 
 <body>
+    <!---->
+    <audio id="startSoundContainer">
+        <source id="startSoundSource" src="./sounds/게임시작.mp3">
+    </audio>
     <div id="wrapper">
         <div id="side">
             <button onClick="flag=!flag" id="button">START</button>
         </div>
         <div id="content"></div>
         <div id="bottom">
-            출제범위:    <input type="number" id="inputA" value="1">    부터    <input type="number"  id="inputB" value="9">     까지의 <span id="plusMinus"></span>
+            출제범위:    <input type="number" id="inputA" value="1">    부터    <input type="number"  id="inputB" value="9">     까지의 덧셈  <!--<span id="plusMinus"></span>-->
         </div>
     </div>
 </body>

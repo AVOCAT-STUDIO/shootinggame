@@ -32,7 +32,7 @@ class Enemy extends Box {
         if (this.y >= 300) {
             this.velY = 0;
 
-            if (this.x >= 1330 || this.x <= -20) {
+            if (this.x >= 1330 || this.x <= 20) {
                 flag3 = !flag3;
             }
 

@@ -6,7 +6,6 @@ class QuestBox extends Box{
         this.a=getRandomByRange(parseInt(inputA.value),parseInt(inputB.value));
         this.b=getRandomByRange(parseInt(inputA.value),parseInt(inputB.value));
 
-        
         this.div.style.border="5px solid darkblue";
         this.div.style.borderRadius="15%";
         this.div.style.opacity=0.7;
