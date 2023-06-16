@@ -162,10 +162,14 @@
         }
         function looseScore(){
             if(score<=0){
+                wrongSound.play();
+                wrongSound.currentTime=0;
                 side.removeChild(heartArray[0].img);
                 heartArray.splice(0,1);
                 if(heartArray.length==0){
                     gameOver();
+                    gameOverSound.play();
+                    gameOverSound.currentTime=0;
                 }
 
             }else{
@@ -185,6 +189,7 @@
             bg.style.top =0 + "px";
             bg.style.opacity = 0.4;
             content.appendChild(bg);
+
         }
         function BgEffect(n) {
             if (n){
@@ -302,8 +307,6 @@
         }
 
        function playSound(){
-            questSound.currentTime=0;
-            questSound.play();
             gameStartSound.currentTime=0;
             gameStartSound.play();
        }
@@ -324,7 +327,6 @@
             createQuestBox();
             createEnemy();
             createEx();
-            playSound();
             
 
         }
@@ -351,13 +353,9 @@
 </head>
 
 <body>
-    <!---->
-    <audio id="startSoundContainer">
-        <source id="startSoundSource" src="./sounds/게임시작.mp3">
-    </audio>
     <div id="wrapper">
         <div id="side">
-            <button onClick="flag=!flag" id="button">START</button>
+            <button onClick="flag=!flag, playSound();" id="button">START</button>
         </div>
         <div id="content"></div>
         <div id="bottom">

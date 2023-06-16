@@ -19,6 +19,7 @@ class Box{
         this.div.style.textAlign="center";
         this.div.style.background=this.bgcolor;
         this.div.innerText=this.text;
+        this.div.style.fontSize=100+"px";
         this.container.appendChild(this.div);
     }
     tick(){
